@@ -9,7 +9,6 @@ module.exports = function(Item) {
           if (isUp) rating.up = rating.up + 1;
           else rating.down = rating.down + 1;
           instance.updateAttribute('rating', rating, (err, instance) => {
-            console.log('updating rating', rating);
             resolve (instance)
           })
         } else reject()
