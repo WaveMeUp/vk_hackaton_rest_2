@@ -42,5 +42,9 @@
   "user": {
     "dataSource": "mongo",
     "public": true
+  },
+  "task": {
+    "dataSource": "mongo",
+    "public": true
   }
 }

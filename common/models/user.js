@@ -1,5 +1,7 @@
 'use strict';
 
+let vk = require('../services/vk');
+
 module.exports = (User) => {
   User.media = (cb) => {
     let response = 'Media method here!';
@@ -8,10 +10,14 @@ module.exports = (User) => {
   };
 
   User.auth = (data, cb) => {
-    console.log(data);
-    let response = "malenkiy dick";
+    vk.getUserProfile(data)
+      .then((userProfile) => {
+        cb (null, userProfile)
+      }, err => {
+        let error = new Error(err);
+        cb (error);
+      })
 
-    cb (null, response)
   };
 
   User.updateImage = (userId, imgName, cb) => {
