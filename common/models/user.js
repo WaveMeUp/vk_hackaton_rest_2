@@ -12,7 +12,27 @@ module.exports = (User) => {
   User.auth = (data, cb) => {
     vk.getUserProfile(data)
       .then((userProfile) => {
-        cb (null, userProfile)
+        let user = new User({
+          imgSrc: userProfile.photo_max,
+          username: userProfile.uid,
+          first_name: userProfile.first_name,
+          last_name: userProfile.last_name,
+          password: '123qweasd',
+          email: 'wavemeup1@gmail.com'
+        });
+        User.findOrCreate({ username: userProfile.uid }, user, (err, instance, created) => {
+          // console.log(err, instance, created);
+          if (err) cb (new Error(err));
+          else {
+            User.login({ username: userProfile.uid, password: '123qweasd'}, (err, data) => {
+              if (err) cb (new Error(err));
+              else {
+                userProfile.accessToken = data.id;
+                cb (null, userProfile);
+              }
+            })
+          }
+        });
       }, err => {
         let error = new Error(err);
         cb (error);
@@ -23,7 +43,7 @@ module.exports = (User) => {
   User.updateImage = (userId, imgName, cb) => {
     User.findById(userId, (err, instance) => {
       if (instance) {
-        instance.updateAttribute('imgId', imgName, (err, instance) => {
+        instance.updateAttribute('imgSrc', imgName, (err, instance) => {
           cb(null, true);
         });
       } else {

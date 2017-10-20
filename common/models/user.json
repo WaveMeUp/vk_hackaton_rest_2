@@ -7,13 +7,23 @@
     "validateUpsert": true
   },
   "properties": {
-    "rating": {
+    "earned": {
       "type": "number",
       "default": 0
     },
-    "imgId": {
+    "posts": {
+      "type": "number",
+      "default": 0
+    },
+    "imgSrc": {
       "type": "string",
       "default": "default.png"
+    },
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
     }
   },
   "validations": [],
