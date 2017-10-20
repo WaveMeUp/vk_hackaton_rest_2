@@ -1,0 +1,43 @@
+{
+  "name": "item",
+  "plural": "news",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "description": {
+      "type": "string",
+      "required": true
+    },
+    "place": {
+      "type": "geopoint",
+      "required": true
+    },
+    "date": {
+      "type": "date",
+      "required": true
+    },
+    "mediaIds": {
+      "type": [
+        "string"
+      ],
+      "default": []
+    },
+    "userId": {
+      "type": "string"
+    },
+    "rating": {
+      "type": "object",
+      "default": {
+        "up": 0,
+        "down": 0
+      }
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

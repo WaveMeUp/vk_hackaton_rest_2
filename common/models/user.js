@@ -27,6 +27,7 @@ module.exports = (User) => {
             User.login({ username: userProfile.uid, password: '123qweasd'}, (err, data) => {
               if (err) cb (new Error(err));
               else {
+                userProfile.userId = instance.id;
                 userProfile.accessToken = data.id;
                 cb (null, userProfile);
               }
@@ -102,7 +103,7 @@ module.exports = (User) => {
         verb: 'post'
       },
       returns: {
-        arg: 'userData',
+        arg: 'response',
         type: 'string'
       }
     }
