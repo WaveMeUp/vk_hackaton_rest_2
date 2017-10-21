@@ -5,6 +5,14 @@ let boot = require('loopback-boot');
 
 let app = module.exports = loopback();
 
+let frameguard = require('frameguard');
+
+app.use(frameguard({
+  action: 'allow-from',
+  domain: 'https://vk.com'
+}));
+
+
 app.start = () => {
   // start the web server
   return app.listen(function() {
