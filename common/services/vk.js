@@ -27,7 +27,7 @@ let getAccessToken = (code, redirect_uri) => {
 module.exports.getUserProfile = (code, redirect_uri) => {
   return new Promise((resolve, reject) => {
     getAccessToken(code, redirect_uri)
-    .then(res => {
+    .then(accessToken => {
         request(config.vk.host+'users.get?fields=photo_max,city,verified&access_token='+accessToken, (err, res, body) => {
           let data = JSON.parse(body);
           if (data.error) reject(data.error.error_msg);
