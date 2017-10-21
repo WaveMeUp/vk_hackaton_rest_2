@@ -40,7 +40,18 @@
       ]
     }
   },
-  "files": {},
+  "files": {
+    "loopback#static": [{
+      "name": "img",
+      "paths": ["/static/img"],
+      "params": "$!../static/img"
+    },
+      {
+        "name": "video",
+        "paths": ["/static/video"],
+        "params": "$!../static/video"
+      }]
+  },
   "final": {
     "loopback#urlNotFound": {}
   },
