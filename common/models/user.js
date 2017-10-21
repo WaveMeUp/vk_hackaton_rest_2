@@ -51,7 +51,7 @@ module.exports = (User) => {
   User.authCode = (code, redirect_uri, cb) => {
     auth(null, code, redirect_uri)
       .then(res => {
-        cb (res);
+        cb (null, res);
       }, err => {
         cb (err)
       })
