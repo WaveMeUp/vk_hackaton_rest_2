@@ -11,6 +11,7 @@
         "maxAge": 86400
       }
     },
+    "./middleware/news": {},
     "helmet#xssFilter": {},
     "helmet#frameguard": {
       "params": [
@@ -44,15 +45,9 @@
     "loopback#static": [
       {
         "paths": [
-          "/static/img"
+          "/static/media"
         ],
-        "params": "$!../static/img"
-      },
-      {
-        "paths": [
-          "/static/video"
-        ],
-        "params": "$!../static/video"
+        "params": "$!../static/media"
       }
     ]
   },
