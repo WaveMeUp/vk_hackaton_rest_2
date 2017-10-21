@@ -15,7 +15,7 @@
       "type": "geopoint",
       "required": true
     },
-    "date": {
+    "datetime": {
       "type": "date",
       "required": true
     },
