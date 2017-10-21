@@ -11,7 +11,6 @@
         "maxAge": 86400
       }
     },
-    "./middleware/news": {},
     "helmet#xssFilter": {},
     "helmet#frameguard": {
       "params": [
