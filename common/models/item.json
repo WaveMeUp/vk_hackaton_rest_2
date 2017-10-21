@@ -51,7 +51,8 @@
   "relations": {
     "user": {
       "type": "belongsTo",
-      "model": ""
+      "model": "user",
+      "foreignKey": "userId"
     }
   },
   "acls": [],
