@@ -9,32 +9,51 @@ module.exports = (User) => {
     cb(null, response);
   };
 
-  User.auth = (token, redirect_uri, cb) => {
-    vk.getUserProfile(token, redirect_uri)
-      .then((userProfile) => {
-        let user = new User({
-          imgSrc: userProfile.photo_max,
-          username: userProfile.uid,
-          first_name: userProfile.first_name,
-          last_name: userProfile.last_name,
-          password: '123qweasd',
-          email: userProfile.uid + '@vk.com'
-        });
-        User.findOrCreate({where: {username: userProfile.uid.toString() }}, user, (err, instance, created) => {
-          if (err) cb (new Error(err));
-          else {
-            User.login({ username: userProfile.uid.toString(), password: '123qweasd'}, (err, data) => {
-              if (err) cb (new Error(err));
-              else {
-                instance.accessToken = data.id;
-                cb (null, instance);
-              }
-            })
-          }
-        });
+  let auth = (accessToken, code, redirect_uri) => {
+    return new Promise((resolve, reject) => {
+      vk.getUserProfile(accessToken, code, redirect_uri)
+        .then((userProfile) => {
+          let user = new User({
+            imgSrc: userProfile.photo_max,
+            username: userProfile.uid,
+            first_name: userProfile.first_name,
+            last_name: userProfile.last_name,
+            password: '123qweasd',
+            email: userProfile.uid + '@vk.com'
+          });
+          User.findOrCreate({where: {username: userProfile.uid.toString() }}, user, (err, instance, created) => {
+            if (err) reject (new Error(err));
+            else {
+              User.login({ username: userProfile.uid.toString(), password: '123qweasd'}, (err, data) => {
+                if (err) reject (new Error(err));
+                else {
+                  instance.accessToken = data.id;
+                  resolve (instance);
+                }
+              })
+            }
+          });
+        }, err => {
+          reject (new Error(err));
+        })
+    })
+  };
+
+  User.authAccessToken = (accessToken, cb) => {
+    auth(accessToken, null, null)
+      .then(res => {
+        cb (null, res);
       }, err => {
-        let error = new Error(err);
-        cb (error);
+        cb (err)
+      })
+  };
+
+  User.authCode = (code, redirect_uri, cb) => {
+    auth(null, code, redirect_uri)
+      .then(res => {
+        cb (res);
+      }, err => {
+        cb (err)
       })
 
   };
@@ -136,7 +155,7 @@ module.exports = (User) => {
   );
 
   User.remoteMethod(
-    'auth', {
+    'authCode', {
       accepts: [{
         arg: 'code',
         type: 'string',
@@ -148,7 +167,25 @@ module.exports = (User) => {
         required: true
       }],
       http: {
-        path: '/auth',
+        path: '/auth/code',
+        verb: 'post'
+      },
+      returns: {
+        arg: 'response',
+        type: 'string'
+      }
+    }
+  )
+
+  User.remoteMethod(
+    'authAccessToken', {
+      accepts: {
+        arg: 'access_token',
+        type: 'string',
+        required: true
+      },
+      http: {
+        path: '/auth/token',
         verb: 'post'
       },
       returns: {

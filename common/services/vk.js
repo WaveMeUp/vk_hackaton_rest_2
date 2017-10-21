@@ -5,13 +5,13 @@ let config = require('../constants.json');
 
 let getAccessToken = (code, redirect_uri) => {
   return new Promise((resolve, reject) => {
-    let query = {
+    let qs = {
       client_id: config.vk.clientId,
       client_secret: config.vk.clientSecret,
       redirect_uri,
       code
     };
-    request({url: 'https://oauth.vk.com/access_token', qs: query}, (err, res, body) => {
+    request({url: 'https://oauth.vk.com/access_token', qs}, (err, res, body) => {
       let data = JSON.parse(body);
       if (data.error) reject(data.error_description);
       else resolve(data['access_token'])
@@ -20,24 +20,39 @@ let getAccessToken = (code, redirect_uri) => {
 };
 
 /**
- * Получаем профиль пользователя из VK
- * @param accessToken
- * @returns {Promise}
+ * Получаем профиль пользователя VK
+ * @param AccessToken
+ * @param code
+ * @param redirect_uri
+ * @returns {*}
  */
-module.exports.getUserProfile = (code, redirect_uri) => {
+module.exports.getUserProfile = (AccessToken, code, redirect_uri) => {
+  let getProfile = (access_token) => {
+    return new Promise((resolve, reject) => {
+      let qs = {
+        fields: 'photo_max,city,verified',
+        access_token
+      };
+      request({url: config.vk.host+'users.get', qs}, (err, res, body) => {
+        let data = JSON.parse(body);
+        if (data.error) reject(data.error.error_msg);
+        else resolve(data.response[0]);
+      })
+    })
+  };
+
   return new Promise((resolve, reject) => {
-    getAccessToken(code, redirect_uri)
-    .then(accessToken => {
-        request(config.vk.host+'users.get?fields=photo_max,city,verified&access_token='+accessToken, (err, res, body) => {
-          let data = JSON.parse(body);
-          if (data.error) reject(data.error.error_msg);
-          else resolve(data.response[0]);
-        })
-      }, err => reject(err))
+    if (AccessToken) getProfile(AccessToken).then(res => resolve(res), err => reject(err));
+    else {
+      getAccessToken(code, redirect_uri)
+        .then(accessToken => {
+          getProfile(accessToken)
+            .then(res => resolve(res), err => reject(err))
+        }, err => reject(err))
+    }
     }, err => {
       reject(err)
     })
-
 };
 
 /**

@@ -55,6 +55,20 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "setWallet"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "authAccessToken"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "authCode"
     }
   ],
   "methods": {}
