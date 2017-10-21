@@ -28,6 +28,9 @@
     "userId": {
       "type": "string"
     },
+    "taksId": {
+      "type": "string"
+    },
     "rating": {
       "type": "object",
       "default": {
