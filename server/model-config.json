@@ -50,5 +50,9 @@
   "item": {
     "dataSource": "mongo",
     "public": true
+  },
+  "container": {
+    "dataSource": "media",
+    "public": true
   }
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(Item) {
+module.exports = (Item) => {
   let updateItem = (id, isUp) => {
     return new Promise((resolve, reject) => {
       Item.findById(id, (err, instance) => {

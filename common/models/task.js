@@ -1,5 +1,5 @@
 'use strict';
 
-module.exports = function(Task) {
+module.exports = (Task) => {
 
 };
