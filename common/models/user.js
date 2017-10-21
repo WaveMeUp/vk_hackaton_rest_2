@@ -40,20 +40,12 @@ module.exports = (User) => {
 
   };
 
-  User.updateImage = (userId, imgName, cb) => {
-    User.findById(userId, (err, instance) => {
-      if (instance) {
-        instance.updateAttribute('imgSrc', imgName, (err, instance) => {
-          cb(null, true);
-        });
-      } else {
-        let error = new Error('User not found');
-        error.status = 404;
-        cb(error);
-      }
-    });
-  };
-
+  /**
+   * Задаём кошелек пользователя
+   * @param userId
+   * @param value
+   * @param cb
+   */
   User.setWallet = (userId, value, cb) => {
     User.findById(userId, (err, instance) => {
       if (instance) {
@@ -93,6 +85,21 @@ module.exports = (User) => {
   }
   )
 
+/*  User.updateImage = (userId, imgName, cb) => {
+    User.findById(userId, (err, instance) => {
+      if (instance) {
+        instance.updateAttribute('imgSrc', imgName, (err, instance) => {
+          cb(null, true);
+        });
+      } else {
+        let error = new Error('User not found');
+        error.status = 404;
+        cb(error);
+      }
+    });
+  };
+
+
   User.remoteMethod(
     'updateImage', {
       accepts: [{
@@ -114,7 +121,7 @@ module.exports = (User) => {
         type: 'string'
       }
     }
-  );
+  );*/
 
   User.remoteMethod(
     'media', {

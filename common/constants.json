@@ -1,5 +1,7 @@
 {
   "vk": {
-    "host": "https://api.vk.com/method/"
+    "host": "https://api.vk.com/method/",
+    "groupAccessToken": "5e003ad7ab998c667d7e82bf5aca6d42d4bb8f46e4164608db9bbe16d18738db76d3685eb1e1857891bb3",
+    "clubId": 155462256
   }
 }

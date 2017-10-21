@@ -26,7 +26,8 @@
       "type": "string"
     },
     "btc_wallet": {
-      "type": "string"
+      "type": "string",
+      "default": null
     }
   },
   "validations": [],

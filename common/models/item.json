@@ -26,21 +26,34 @@
       "default": []
     },
     "userId": {
-      "type": "string"
+      "type": "string",
+      "default": null
     },
     "taksId": {
-      "type": "string"
+      "type": "string",
+      "default": null
     },
     "rating": {
       "type": "object",
       "default": {
-        "up": 0,
-        "down": 0
+        "up": {
+          "count": 0,
+          "users": []
+        },
+        "down": {
+          "count": 0,
+          "users": []
+        }
       }
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": ""
+    }
+  },
   "acls": [],
   "methods": {}
 }
