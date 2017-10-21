@@ -24,6 +24,9 @@
     },
     "last_name": {
       "type": "string"
+    },
+    "btc_wallet": {
+      "type": "string"
     }
   },
   "validations": [],
@@ -44,6 +47,13 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "auth"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "setWallet"
     }
   ],
   "methods": {}

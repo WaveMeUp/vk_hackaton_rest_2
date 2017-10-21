@@ -55,6 +55,45 @@ module.exports = (User) => {
     });
   };
 
+  User.setWallet = (userId, value, cb) => {
+    User.findById(userId, (err, instance) => {
+      if (instance) {
+        instance.updateAttribute('btc_wallet', value, (err, instance) => {
+          cb(null, true);
+        });
+      } else {
+        let error = new Error('User not found');
+        error.status = 404;
+        cb(error);
+      }
+    });
+  };
+
+
+  User.remoteMethod(
+    'setWallet', {
+      accepts: [
+        {
+          arg: 'userId',
+          type: 'string',
+          required: true
+        },
+        {
+          arg: 'value',
+          type: 'string',
+          required: true
+        }],
+      http: {
+        path: '/setWallet',
+        verb: 'post'
+      },
+      returns: {
+        arg: 'response',
+        type: 'string'
+      }
+  }
+  )
+
   User.remoteMethod(
     'updateImage', {
       accepts: [{
