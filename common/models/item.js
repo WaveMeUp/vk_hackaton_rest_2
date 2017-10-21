@@ -56,6 +56,8 @@ module.exports = (Item) => {
   Item.voteUp = (id, req, cb) => {
     updateItem(id, req, true)
       .then((item) => {
+      item.rating.up = item.rating.up.count;
+      item.rating.down = item.rating.down.count;
         cb (null, item.rating);
       }, (err) => {
         let error = new Error('Instance not found');
@@ -73,6 +75,8 @@ module.exports = (Item) => {
   Item.voteDown = (id, req, cb) => {
     updateItem(id, req, false)
       .then((item) => {
+        item.rating.up = item.rating.up.count;
+        item.rating.down = item.rating.down.count;
         cb (null, item.rating);
       }, (err) => {
         let error = new Error('Instance not found');
