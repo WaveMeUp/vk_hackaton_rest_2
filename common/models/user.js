@@ -27,9 +27,8 @@ module.exports = (User) => {
             User.login({ username: userProfile.uid, password: '123qweasd'}, (err, data) => {
               if (err) cb (new Error(err));
               else {
-                userProfile.userId = instance.id;
-                userProfile.accessToken = data.id;
-                cb (null, userProfile);
+                instance.accessToken = data.id;
+                cb (null, instance);
               }
             })
           }

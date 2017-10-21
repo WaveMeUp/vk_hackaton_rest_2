@@ -41,16 +41,20 @@
     }
   },
   "files": {
-    "loopback#static": [{
-      "name": "img",
-      "paths": ["/static/img"],
-      "params": "$!../static/img"
-    },
+    "loopback#static": [
       {
-        "name": "video",
-        "paths": ["/static/video"],
+        "paths": [
+          "/static/img"
+        ],
+        "params": "$!../static/img"
+      },
+      {
+        "paths": [
+          "/static/video"
+        ],
         "params": "$!../static/video"
-      }]
+      }
+    ]
   },
   "final": {
     "loopback#urlNotFound": {}

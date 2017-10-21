@@ -16,7 +16,13 @@
   "media": {
     "name": "media",
     "connector": "loopback-component-storage",
-    "allowedContentTypes": ["image/jpg", "image/jpeg", "image/png", "video/mpeg", "video/mp4"],
+    "allowedContentTypes": [
+      "image/jpg",
+      "image/jpeg",
+      "image/png",
+      "video/mpeg",
+      "video/mp4"
+    ],
     "provider": "filesystem",
     "root": "./static/",
     "maxFileSize": "104857600"
