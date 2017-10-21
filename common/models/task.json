@@ -20,6 +20,10 @@
     },
     "place": {
       "type": "geopoint"
+    },
+    "sum": {
+      "type": "number",
+      "required": true
     }
   },
   "validations": [],
