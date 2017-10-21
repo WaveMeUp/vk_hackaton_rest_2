@@ -41,14 +41,18 @@
     }
   },
   "files": {
-    "loopback#static": [
+    "loopback#static": [{
+      "paths": [
+        "/static/media"
+      ],
+      "params": "$!../static/media"
+    },
       {
         "paths": [
-          "/static/media"
+          "/client/"
         ],
-        "params": "$!../static/media"
-      }
-    ]
+        "params": "$!../client/"
+      }]
   },
   "final": {
     "loopback#urlNotFound": {}
