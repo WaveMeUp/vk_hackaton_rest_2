@@ -31,19 +31,19 @@ module.exports = (Item) => {
    * Обработка массива с новостями
    */
   Item.afterRemote ('find', (ctx, instance, next) => {
-    if(ctx.req.accessToken) {
-      let userId = ctx.req.accessToken.userId.toString();
       // console.log(ctx.result);
       // ctx.result = ['kek'];
       for(let i=0; i<ctx.result.length; i++) {
-        let liked = ctx.result[i].rating.up.users.map(userId => userId.toString()).indexOf(userId) > -1;
-        ctx.result[i].rating.isVoted = liked || ctx.result[i].rating.down.users.map(userId => userId.toString()).indexOf(userId) > -1;
-        ctx.result[i].rating.isLiked = liked
+        if (ctx.req.accessToken) {
+          let userId = ctx.req.accessToken.userId.toString();
+          let liked = ctx.result[i].rating.up.users.map(userId => userId.toString()).indexOf(userId) > -1;
+          ctx.result[i].rating.isVoted = liked || ctx.result[i].rating.down.users.map(userId => userId.toString()).indexOf(userId) > -1;
+          ctx.result[i].rating.isLiked = liked
+        }
         ctx.result[i].rating.up = ctx.result[i].rating.up.count;
         ctx.result[i].rating.down = ctx.result[i].rating.down.count;
       }
       next();
-    } else next()
   });
 
 
