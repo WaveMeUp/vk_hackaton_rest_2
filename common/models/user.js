@@ -9,8 +9,8 @@ module.exports = (User) => {
     cb(null, response);
   };
 
-  User.auth = (data, cb) => {
-    vk.getUserProfile(data)
+  User.auth = (token, redirect_uri, cb) => {
+    vk.getUserProfile(token, redirect_uri)
       .then((userProfile) => {
         let user = new User({
           imgSrc: userProfile.photo_max,
@@ -138,11 +138,16 @@ module.exports = (User) => {
 
   User.remoteMethod(
     'auth', {
-      accepts: {
-        arg: 'data',
+      accepts: [{
+        arg: 'code',
         type: 'string',
         required: true
       },
+        {
+        arg: 'redirect_uri',
+        type: 'string',
+        required: true
+      }],
       http: {
         path: '/auth',
         verb: 'post'
