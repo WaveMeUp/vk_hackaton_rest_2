@@ -86,7 +86,7 @@ module.exports = (Item) => {
   };
 
   /**
-   * Отправка поста в VK
+   * Отправка поста в VK !!! НЕ ИСПОЛЬЗОВАТЬ !!!
    * @param req
    * @param itemId
    * @param cb

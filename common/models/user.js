@@ -79,6 +79,21 @@ module.exports = (User) => {
     });
   };
 
+  User.addMoney = (userId, value, cb) => {
+    User.findById(userId, (err, instance) => {
+      if (instance) {
+        let balance = instance.earned + value;
+        instance.updateAttribute('earned', balance, (err, instance) => {
+          cb(null, true);
+        });
+      } else {
+        let error = new Error('User not found');
+        error.status = 404;
+        cb(error);
+      }
+    });
+  }
+
 
   User.remoteMethod(
     'setWallet', {
@@ -102,6 +117,30 @@ module.exports = (User) => {
         type: 'string'
       }
   }
+  )
+
+  User.remoteMethod(
+    'addMoney', {
+      accepts: [
+        {
+          arg: 'userId',
+          type: 'string',
+          required: true
+        },
+        {
+          arg: 'value',
+          type: 'number',
+          required: true
+        }],
+      http: {
+        path: '/addMoney',
+        verb: 'post'
+      },
+      returns: {
+        arg: 'response',
+        type: 'string'
+      }
+    }
   )
 
 /*  User.updateImage = (userId, imgName, cb) => {
