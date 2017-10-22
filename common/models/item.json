@@ -52,6 +52,11 @@
       "type": "belongsTo",
       "model": "user",
       "foreignKey": "userId"
+    },
+    "task": {
+      "type": "belongsTo",
+      "model": "task",
+      "foreignKey": "taskId"
     }
   },
   "acls": [],
