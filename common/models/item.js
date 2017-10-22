@@ -5,24 +5,24 @@ let vk = require('../services/vk');
 module.exports = (Item) => {
   let updateItem = (id, req, isUp) => {
     return new Promise((resolve, reject) => {
-      let userId = req.accessToken.userId;
+      let accessToken = req.accessToken;
       // if (!userId) reject();
       Item.findById(id, (err, instance) => {
         if (instance) {
           let rating = instance.rating;
           if (isUp) {
             rating.up.count = rating.up.count + 1;
-            if (userId) rating.up.users.push(userId);
+            if (accessToken) rating.up.users.push(accessToken.userId);
           }
           else {
             rating.down.count = rating.down.count + 1;
-            if (userId) rating.up.users.push(userId);
+            if (accessToken) rating.up.users.push(accessToken.userId);
           }
 
           instance.updateAttributes({'rating': rating}, (err, instance) => {
             resolve (instance)
           })
-        } else reject()
+        } else reject(err)
       })
     });
   };
