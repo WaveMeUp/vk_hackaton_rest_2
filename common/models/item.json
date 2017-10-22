@@ -59,6 +59,14 @@
       "foreignKey": "taskId"
     }
   },
-  "acls": [],
+  "acls": [
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "sendToVk"
+    }
+  ],
   "methods": {}
 }

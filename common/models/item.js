@@ -91,8 +91,45 @@ module.exports = (Item) => {
    * @param itemId
    * @param cb
    */
-  Item.sendToVk = (req, itemId, cb) => {
-    cb (null, req.url);
+  Item.sendToVk = (req, code, access_token, itemId, cb) => {
+    console.log('BODY',req.body);
+    vk.getAccessToken(code, "http://localhost:3000/api/news/vk/post?itemId="+itemId)
+      .then(res => {
+        Item.findById(itemId, (err, instance) => {
+          if (err) cb (new Error(err));
+          else {
+            // cb(null, instance);
+            vk.postNews(res, instance)
+              .then(res => {
+                cb (null, res)
+              }, err => {
+                cb (new Error(err))
+              })
+            // cb (null, res)
+          }
+        })
+      }, err => cb (new Error(err)))
+    /*if (code) {
+      console.log(code, itemId);
+      vk.getAccessToken(code, "http://localhost:3000/api/news/vk/post?itemId="+itemId)
+        .then(res => {
+          console.log('got access token', res);
+          Item.findById(itemId.toString(), (err, instance) => {
+            console.log('find', err, instance);
+            if (err) cb (new Error(err));
+            else {
+              vk.postNews(res, instance)
+                .then(res => {
+                  cb (null, res)
+                }, err => {
+                  cb (new Error(err))
+                })
+            }
+          }, err => cb (new Error(err)));
+        }, err => {
+          cb (new Error(err))
+        })
+    }*/
     /*Item.findById(itemId, (err, instance) => {
       if (err) cb(new Error(err));
       else {
@@ -108,16 +145,22 @@ module.exports = (Item) => {
 
   Item.remoteMethod(
     'sendToVk', {
-      accepts: [
+      accepts: [{
+        arg: 'req',
+        type: 'object',
+        http: { source: 'req' }
+      },
         {
-          arg: 'req',
-          type: 'object',
-          http: { source: 'req' }
+          arg: 'code',
+          type: 'string'
+        },
+        {
+          arg: 'access_token',
+          type: 'string'
         },
         {
           arg: 'itemId',
-          type: 'string',
-          required: true
+          type: 'string'
         }],
       http: {
         path: '/vk/post',

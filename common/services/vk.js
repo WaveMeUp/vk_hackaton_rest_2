@@ -3,7 +3,7 @@
 let request = require('request');
 let config = require('../constants.json');
 
-let getAccessToken = (code, redirect_uri) => {
+module.exports.getAccessToken = (code, redirect_uri) => {
   return new Promise((resolve, reject) => {
     let qs = {
       client_id: config.vk.clientId,
@@ -11,6 +11,7 @@ let getAccessToken = (code, redirect_uri) => {
       redirect_uri,
       code
     };
+    console.log(qs);
     request({url: 'https://oauth.vk.com/access_token', qs}, (err, res, body) => {
       let data = JSON.parse(body);
       if (data.error) reject(data.error_description);
@@ -36,7 +37,10 @@ module.exports.getUserProfile = (AccessToken, code, redirect_uri) => {
       request({url: config.vk.host+'users.get', qs}, (err, res, body) => {
         let data = JSON.parse(body);
         if (data.error) reject(data.error.error_msg);
-        else resolve(data.response[0]);
+        else {
+          data.response[0]['vk_access_token'] = access_token;
+          resolve(data.response[0]);
+        }
       })
     })
   };
@@ -44,7 +48,7 @@ module.exports.getUserProfile = (AccessToken, code, redirect_uri) => {
   return new Promise((resolve, reject) => {
     if (AccessToken) getProfile(AccessToken).then(res => resolve(res), err => reject(err));
     else {
-      getAccessToken(code, redirect_uri)
+      module.exports.getAccessToken(code, redirect_uri)
         .then(accessToken => {
           getProfile(accessToken)
             .then(res => resolve(res), err => reject(err))
@@ -61,9 +65,11 @@ module.exports.getUserProfile = (AccessToken, code, redirect_uri) => {
  * @param item
  */
 module.exports.postNews = (AccessToken, item) => {
+  console.log(AccessToken);
   return new Promise((resolve, reject) => {
-    request(config.vk.host+'wall.post?owner_id=-'+config.vk.clubId+'&from_group=1&message='+item.description+'&access_token'+AccessToken, (err, res, body) => {
+    request(config.vk.host+'wall.post?owner_id=-'+config.vk.clubId+'&from_group=1&message='+item.description+'&access_token='+AccessToken, (err, res, body) => {
       let data = JSON.parse(body);
+      console.log('data', data);
       if (data.error) reject(data.error.error_msg);
       else resolve(data.response);
     })
