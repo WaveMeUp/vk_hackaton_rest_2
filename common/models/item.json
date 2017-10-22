@@ -28,7 +28,7 @@
       "type": "string",
       "default": null
     },
-    "taksId": {
+    "taskId": {
       "type": "string",
       "default": null
     },
