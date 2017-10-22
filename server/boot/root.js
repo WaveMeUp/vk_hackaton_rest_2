@@ -7,7 +7,7 @@ module.exports = (server) => {
   server.use(router);*/
 
   server.dataSources.media.connector.getFilename = (file, req, res) => {
-    let origFilename = file.name;
+    let origFilename = file.name.replace(/\s/g, '');
     // optimisticly get the extension
     let parts = origFilename.split('.'),
       extension = parts[parts.length-1];
