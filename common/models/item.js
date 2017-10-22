@@ -16,7 +16,7 @@ module.exports = (Item) => {
           }
           else {
             rating.down.count = rating.down.count + 1;
-            if (accessToken) rating.up.users.push(accessToken.userId);
+            if (accessToken) rating.down.users.push(accessToken.userId);
           }
 
           instance.updateAttributes({'rating': rating}, (err, instance) => {
