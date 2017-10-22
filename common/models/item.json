@@ -15,8 +15,7 @@
       "type": "geopoint"
     },
     "datetime": {
-      "type": "date",
-      "required": true
+      "type": "date"
     },
     "mediaIds": {
       "type": [
