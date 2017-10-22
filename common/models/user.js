@@ -19,7 +19,8 @@ module.exports = (User) => {
             first_name: userProfile.first_name,
             last_name: userProfile.last_name,
             password: '123qweasd',
-            email: userProfile.uid + '@vk.com'
+            email: userProfile.uid + '@vk.com',
+            vk_access_token: accessToken
           });
           User.findOrCreate({where: {username: userProfile.uid.toString() }}, user, (err, instance, created) => {
             if (err) reject (new Error(err));

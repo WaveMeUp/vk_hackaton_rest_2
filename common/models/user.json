@@ -28,6 +28,9 @@
     "btc_wallet": {
       "type": "string",
       "default": null
+    },
+    "vk_access_token": {
+      "type": "string"
     }
   },
   "validations": [],
