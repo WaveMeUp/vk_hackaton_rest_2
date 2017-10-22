@@ -6,17 +6,17 @@ module.exports = (Item) => {
   let updateItem = (id, req, isUp) => {
     return new Promise((resolve, reject) => {
       let userId = req.accessToken.userId;
-      if (!userId) reject();
+      // if (!userId) reject();
       Item.findById(id, (err, instance) => {
         if (instance) {
           let rating = instance.rating;
           if (isUp) {
             rating.up.count = rating.up.count + 1;
-            rating.up.users.push(userId);
+            if (userId) rating.up.users.push(userId);
           }
           else {
             rating.down.count = rating.down.count + 1;
-            rating.up.users.push(userId);
+            if (userId) rating.up.users.push(userId);
           }
 
           instance.updateAttributes({'rating': rating}, (err, instance) => {
